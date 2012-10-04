@@ -933,6 +933,14 @@ sub fetch_module {
 
     $self->chdir($self->{base});
 
+    if ($self->{cmd} eq 'download' && !$self->{force}) {
+        my $file = "$self->{save_dists}/authors/id/$dist->{pathname}";
+        if (-f $file) {
+            $self->chat("You have $file\n");
+            return;
+        }
+    }
+
     for my $uri (@{$dist->{uris}}) {
         $self->diag_progress("Fetching $uri");
 
